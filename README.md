@@ -13,7 +13,8 @@ You can simply build the docker once, and serve any number of binaries easily, e
 ## Running
 ```
 mkdir mount
-cp ${MYBINARY} mount/
+cp ${MYBINARY} mount/binary
+cp ${MYFLAG.txt} mount/flag.txt
 PORT=9998 ./docker_run.sh     # Really <again>
 ```
 
@@ -32,3 +33,5 @@ I shall not take any responsibility for any behavior of the docker, although it 
 Keeping your kernel up-to-date is of importance, since dockers cannot prevent kernel based exploits like dirty cow.
 
 Have fun! And do point out any security issues if you find any, at *saksham@acehack.org*
+
+P.S. @[rawcoder](http://github.com/rawcoder) deserves a shout-out for his considerable help.
