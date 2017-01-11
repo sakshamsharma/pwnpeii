@@ -8,16 +8,17 @@ then
 fi
 
 echo "Remounting /proc for preventing users from seeing each other's processes..."
-mount -o remount,hidepid=2 /proc
+sudo mount -o remount,hidepid=2 /proc
 
 echo "Disabling read of others users' data on /tmp..."
 chmod 1732 /tmp /var/tmp /dev/shm
 
-echo "Changing ownership of problemuser..."
-chown -R root:problemusers /home/problemuser
-
 echo "Copying over resources"
 cp /pwnpeii/mount/* /home/problemuser
+cp /pwnpeii/scripts/runner.sh /home/problemuser/runner.sh
+
+echo "Changing ownership of problemuser..."
+chown -R root:problemusers /home/problemuser
 
 echo "Setting permissions..."
 chmod 750 /home/problemuser
@@ -25,25 +26,29 @@ chmod 550 -R /home/problemuser/*
 chmod 440 /home/problemuser/flag.txt
 
 # For cgroups
-cgconfigparser -l /etc/cgconfig.conf
+sudo cgconfigparser -l /etc/cgconfig.conf
 
 echo "Writing the xinetd conf file..."
 echo "
-service pwneii_ctf
+service ctf
 {
 	disable = no
 	socket_type = stream
 	protocol    = tcp
 	wait        = no
-	user        = problemuser
+	user        = root
 	bind        = 0.0.0.0
-	server      = /pwnpeii/user-run.sh
-	type        = UNLISTED
+	server      = /pwnpeii/scripts/user-run.sh
 	port        = 9998
-}" | tee /etc/xinetd.d/pwneii_ctf
+}" | tee /etc/xinetd.d/ctf
+
+echo "Adding new service to /etc/services"
+echo "
+ctf 9998/tcp
+" >> /etc/services
 
 # Run xinetd
-sudo systemctl start xinetd
+/etc/init.d/xinetd start
 
 # This runs forever
-./scripts/cleanup.sh
+/pwnpeii/scripts/cleanup.sh

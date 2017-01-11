@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 
-function userrun() {
-    cgexec -c memory:ctflimit bash -c "sudo -u problemuser /home/problemuser/runner.sh"
-}
-
-firejail \
-    --noroot \
-    --private \
-    --caps.drop=all \
-    --net=none \
-    userrun
+# Run jail
+sudo cgexec -g memory:ctflimit \
+     sudo -u problemuser -H \
+     firejail \
+     --caps.drop=all \
+     --net=none \
+     --noroot \
+     --force \
+     bash -c "
+     /home/problemuser/runner.sh 2>&1
+     " 2> /dev/null
