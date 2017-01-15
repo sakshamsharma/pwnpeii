@@ -13,9 +13,12 @@ sudo mount -o remount,hidepid=2 /proc
 echo "Disabling read of others users' data on /tmp..."
 chmod 1732 /tmp /var/tmp /dev/shm
 
+echo "Protect your files"
+chown root:root /pwnpeii
+chmod 700 /pwnpeii
+
 echo "Copying over resources"
 cp /pwnpeii/mount/* /home/problemuser
-cp /pwnpeii/scripts/runner.sh /home/problemuser/runner.sh
 
 echo "Changing ownership of problemuser..."
 chown -R root:problemusers /home/problemuser
