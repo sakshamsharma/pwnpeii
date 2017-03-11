@@ -6,7 +6,7 @@ cp /pwnpeii/mount/* /someplace
 chown -R problemuser:problemusers /someplace
 
 # Run jail
-sudo cgexec -g memory:ctflimit \
+sudo cgexec -g memory,pids,cpu:ctflimit \
      sudo -u problemuser -H \
      firejail \
      --caps.drop=all \

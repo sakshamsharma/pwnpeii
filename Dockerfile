@@ -7,12 +7,12 @@ RUN bash -c "yes | apt-get install vim"
 RUN mkdir -p /pwnpeii/scripts
 WORKDIR /pwnpeii
 
-COPY configs/cgconfig.conf /etc/cgconfig.conf
+COPY scripts/cleanup.sh /pwnpeii/scripts
+COPY scripts/runner.sh /pwnpeii/scripts
+
 COPY configs/limits.conf /etc/security/limits.conf
 COPY configs/sysctl.conf /etc/sysctl.conf
-
-COPY scripts/cleanup.sh /pwnpeii/scripts
-COPY scripts/user-run.sh /pwnpeii/scripts
+COPY configs/cgconfig.conf /etc/cgconfig.conf
 
 COPY start.sh /pwnpeii/start.sh
 

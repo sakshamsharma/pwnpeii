@@ -42,9 +42,8 @@ service ctf
 	user        = root
 	bind        = 0.0.0.0
 	per_source  = 3
-	max_load    = 3.0
 	cps         = 100 5
-	server      = /pwnpeii/scripts/user-run.sh
+	server      = /pwnpeii/scripts/runner.sh
 	port        = 9998
 }" | tee /etc/xinetd.d/ctf
 
